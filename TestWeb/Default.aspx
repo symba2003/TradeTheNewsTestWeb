@@ -4,6 +4,29 @@
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
+    <script type="text/javascript" src="../Scripts/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#submit').click(function () {
+                var data = { name: "'" + $('#name').val() + "'", color: "'" + $('#color').val() + "'", adult: "'" + $('#18-years').val() + "'", time: "'" + $('#radio-morning').val() + "'" };//json object
+                
+                $.ajax({
+                    type: "POST",
+                    url: "Default.aspx/IsValid",
+                    data: data,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (html) {
+                        $('#message').html(html.d); //Why "d"? they choose d for short for data to add the minimal amount of json overhead to the payload. 
+                 //It probably would have been much cleaner of them to have actually used Data or even Payload or other
+                 //more descriptive word.
+                   }
+                });
+                return false;
+            });
+        });
+
+    </script>
     <h2>Test form</h2>
 	<form action="Default.aspx">
 		<table>
@@ -34,45 +57,13 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2"><input type="submit" /></td>
+				<td colspan="2"><input type="submit" id="submit"/></td>
 			</tr>
+            <tr>
+                <!-- here will place the result -->
+                <td colspan="2"><label id="message"/></td>
+            </tr>
 		</table>
 		
 	</form>
-        <script language="javascript" type="text/javascript">
-    var request = null;
-
-        function createRequest() {
-            try {
-                request = new XMLHttpRequest();
-            } catch (trymicrosoft) {
-                try {
-                    request = new ActiveXObject("Msxml2.XMLHTTP");
-                } catch (othermicrosoft) {
-                    try {
-                        request = new ActiveXObject("Microsoft.XMLHTTP");
-                    } catch (failed) {
-                        request = null;
-                    }
-                }
-            }
-
-            if (request == null)
-                alert("Error creating request object!");
-        }
-
-        function ValidateData() {
-            createRequest();
-            var url = "Default.aspx";
-            request.open("GET", url, true);
-            request.onreadystatechange = updatePage;
-            request.send(null);
-        }
-
-        function updatePage() {
-            if (request.readyState == 4) {
-                
-            }
-        }
-    </script>
 </asp:Content>

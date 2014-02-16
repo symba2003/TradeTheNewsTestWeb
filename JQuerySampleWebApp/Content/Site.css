@@ -562,6 +562,13 @@ tr.pager td {
     padding: 0 0.25em 0 0;
 }
 
+#message
+{
+    color: red;
+    font-style: oblique;
+    font-weight:300;
+}
+
 
 /********************
 *   Mobile Styles   *

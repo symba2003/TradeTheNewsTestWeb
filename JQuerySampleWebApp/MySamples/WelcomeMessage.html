@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <!-- From JQuery Receipes book -->
+<head>
+    <title></title>
+    <!-- http://www.asp.net/web-api/overview/working-with-http/sending-html-form-data,-part-1 -->
+
+    <script type="text/javascript" src="../Scripts/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#submit').click(function () {
+                var name = $('.uname').val();
+                var data = 'uname=' + name;
+                $.ajax({
+                    type: "POST",
+                    url: "/Default.aspx/GetWelcomeMessage",
+                    data: data,
+                    success: function (html) {
+                        $('#message').html(html);
+                    }
+                });
+                return false;
+            });
+        });
+
+    </script>
+</head>
+<body>
+<form>
+<label>Enter your Name</label>
+<input type="text" name="uname" class="uname"/> <br/>
+<input type="submit" id="submit"/>
+</form>
+<div id="message"></div>
+</body>
+</html>

@@ -1,6 +1,57 @@
 ﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="JQuerySampleWebApp._Default" %>
 
 <asp:Content runat="server" ID="FeaturedContent" ContentPlaceHolderID="FeaturedContent">
+     <script type="text/javascript" src="../Scripts/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#submit').click(function () {
+                // Sample1
+                var name = $('.uname').val();
+                //var data = '{name: "' + name + '" }';//json object
+                //$.ajax({
+                //    type: "POST",
+                //    url: "Default.aspx/GetWelcomeMessage",
+                //    data: data,
+                //    contentType: "application/json; charset=utf-8",
+                //    dataType: "json",
+                //    success: function (html) {
+                //        $('#message').html(html.d); //Why "d"? they choose d for short for data to add the minimal amount of json overhead to the payload. 
+                // It probably would have been much cleaner of them to have actually used Data or even Payload or other
+                // more descriptive word.
+                    
+                //    }
+
+                //Sample2 - not working: full html returned (default content-type equals  'application/x-www-form-urlencoded'.
+                //var data = {name: "'" + name + "'" };//json object
+                //$.ajax({
+                //    type: "POST",
+                //    url: "Default.aspx/GetWelcomeMessage",
+                //    data: data,
+                //    //contentType: "application/json; charset=utf-8",
+                //    dataType: "html",
+                //    success: function (result) {
+                //        $('#message').html(result);
+                //    }
+
+                //Sample3 - not workin: full JSON returned, without ability to get "d"
+                // On this occasion, the contentType is set to application/json. The dataType is still set to html, since that is 
+                // the data type of the response I am expecting from the server. 
+                    var data = {name: "'" + name + "'" };//json object
+                    $.ajax({
+                        type: "POST",
+                        url: "Default.aspx/GetWelcomeMessage",
+                        data:  JSON.stringify(data),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "html",
+                        success: function (result) {
+                            $('#message').html(result); 
+                        }
+                });
+                return false;
+            });
+        });
+
+    </script>
     <section class="featured">
         <div class="content-wrapper">
             <hgroup class="title">
@@ -17,6 +68,9 @@
     </section>
 </asp:Content>
 <asp:Content runat="server" ID="BodyContent" ContentPlaceHolderID="MainContent">
+     <label>Enter your Name</label>
+<input type="text" name="uname" class="uname"/> <br/>
+<input type="submit" id="submit"/>
     <h3>We suggest the following:</h3>
     <ol class="round">
         <li class="one">
@@ -36,4 +90,5 @@
             <a href="http://go.microsoft.com/fwlink/?LinkId=245143">Learn more…</a>
         </li>
     </ol>
+     <div id="message"></div>   
 </asp:Content>
